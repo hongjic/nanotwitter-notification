@@ -1,1 +1,1 @@
-worker: ruby notification-service.rb
+web: bundle exec puma -p $PORT
