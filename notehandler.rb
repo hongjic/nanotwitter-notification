@@ -15,10 +15,11 @@ notebuilder = NotificationService::NoteBuilder.instance
 
 begin
   q.subscribe(:block => true) do |delivery_info, properties, body|
-    # body needs {target_user_id, type, tweet_id, new_follower_id, source_user_name}
-    note_info = JSON.parse body
-    puts "a"
-    notebuilder.build note_info
+    request = JSON.parse body
+    method = request["method"]
+    params = request["params"]
+    # params needs {target_user_id, type, tweet_id, new_follower_id, source_user_name}
+    notebuilder.exec_task(method, params)
   end
 rescue Interrupt => _
   puts "Interrupt "

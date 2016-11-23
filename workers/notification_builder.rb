@@ -16,6 +16,10 @@ module NotificationService
       @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
     end
 
+    def exec_task method, params
+      instance_eval("#{method} params")
+    end
+
     def build note_info
       begin
         note = Notification.new
