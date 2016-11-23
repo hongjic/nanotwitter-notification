@@ -1,5 +1,5 @@
 var scheme   = "<%= @scheme %>";
-var uri      = scheme + window.document.location.host + "/1";
+var uri      = scheme + window.document.location.host + "/admin";
 var ws       = new WebSocket(uri);
 ws.onmessage = function(message) {
   // var data = JSON.parse(message.data);
