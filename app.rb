@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-module Notification
+module NotificationService
   class App < Sinatra::Base
     get "/" do
       erb :"index.html"
@@ -12,6 +12,6 @@ module Notification
       erb :"application.js"
     end
 
-    
+
   end
 end

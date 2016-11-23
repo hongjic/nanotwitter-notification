@@ -1,6 +1,6 @@
 require './app'
 require './middlewares/messenger'
 
-use Notification::Messenger
+use NotificationService::Messenger
 
-run Notification::App
+run NotificationService::App

@@ -6,17 +6,17 @@ require 'erb'
 require 'byebug'
 
 # url path: => username
-# websocket push msg = {source: "user", target: "user", message: "user"}
-# in redis: {source: "user", target: "user", message: "user"}
+# websocket push msg = {source: "user", target: "id", message: "user"}
+# in redis: {source: "user", target: "id", message: "user"}
 
-module Notification
+module NotificationService
   class Messenger
     KEEPALIVE_TIME = 15 # in seconds
     CHANNEL        = "notification"
 
     def initialize(app)
       @app     = app
-      @clients = {}
+      @clients = {} # key is a string.  normal user=> "id", admin => "admin"
       uri = URI.parse(ENV["REDIS_URL"])
       @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
       Thread.new do
@@ -24,7 +24,7 @@ module Notification
         redis_sub.subscribe(CHANNEL) do |on|
           on.message do |channel, msg_str| 
             msg = deserialize msg_str
-            target = msg["target"]
+            target = msg["target"].to_s
             message = msg["message"]
             @clients[target].send msg.to_json if @clients.has_key? target
           end
@@ -42,7 +42,7 @@ module Notification
 
         ws.on :message do |event|
           p [:message, event.data]
-          # event.data = a JSON string {source: "user", target: "user", message: "message"}
+          # event.data = a JSON string {target: "id", message: "message"}
           msg = deserialize(event.data)
           msg["source"] = ws.env["REQUEST_PATH"][1..-1]
           @redis.publish(CHANNEL, msg.to_json)

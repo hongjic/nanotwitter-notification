@@ -1,13 +1,14 @@
 var scheme   = "<%= @scheme %>";
-var uri      = scheme + window.document.location.host + "/admin";
+var uri      = scheme + window.document.location.host + "/1";
 var ws       = new WebSocket(uri);
-// ws.onmessage = function(message) {
-//   var data = JSON.parse(message.data);
-//   $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.source + "</div><div class='panel-body'>" + data.message + "</div></div>");
-//   $("#chat-text").stop().animate({
-//     scrollTop: $('#chat-text')[0].scrollHeight
-//   }, 800);
-// };
+ws.onmessage = function(message) {
+  // var data = JSON.parse(message.data);
+  // $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.source + "</div><div class='panel-body'>" + data.message + "</div></div>");
+  // $("#chat-text").stop().animate({
+  //   scrollTop: $('#chat-text')[0].scrollHeight
+  // }, 800);
+  console.log(message);
+};
 
 $("#input-form").on("submit", function(event) {
   event.preventDefault();
@@ -16,3 +17,4 @@ $("#input-form").on("submit", function(event) {
   ws.send(JSON.stringify({ target: handle, message: text }));
   $("#input-text")[0].value = "";
 });
+
