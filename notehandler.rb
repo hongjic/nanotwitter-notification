@@ -15,6 +15,7 @@ notebuilder = NotificationService::NoteBuilder.instance
 
 begin
   q.subscribe(:block => true) do |delivery_info, properties, body|
+    p "get from queue notification:create=> #{body}"
     request = JSON.parse body
     method = request["method"]
     params = request["params"]
