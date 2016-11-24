@@ -30,11 +30,11 @@ module NotificationService
         note.new_follower_id = note_info["new_follower_id"]
         note.save
         if note_info["type"] == "new_follower"
-          message = note_info["source_user_name"] + "has followed you."
+          message = note_info["source_user_name"] + " has followed you."
         elsif note_info["type"] == "reply"
-          message = note_info["source_user_name"] + "gived you a reply."
+          message = note_info["source_user_name"] + " gived you a reply."
         else 
-          message = note_info["mention"] + "mentioned you."
+          message = note_info["mention"] + " mentioned you."
         end
         msg = {
           target: note_info["target_user_id"],
