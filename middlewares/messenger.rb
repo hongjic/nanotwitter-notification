@@ -23,6 +23,7 @@ module NotificationService
         redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
         redis_sub.subscribe(CHANNEL) do |on|
           on.message do |channel, msg_str| 
+            p "subscribe #{msg_str}"
             msg = deserialize msg_str
             target = msg["target"].to_s
             message = msg["message"]

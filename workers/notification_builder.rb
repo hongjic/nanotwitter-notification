@@ -42,7 +42,7 @@ module NotificationService
           message: message 
         }
         @redis.publish(CHANNEL, msg.to_json) # msg {source, target, message}
-        puts "publish finish"
+        p "publish #{msg.to_json}"
         true
       rescue ActiveModel::UnknownAttributeError, ActiveRecord::InvalidForeignKey
         false
